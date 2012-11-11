@@ -16,9 +16,9 @@ public class RightLeftMovement extends Component
 	float speed;
 	float walk;
  
-	public RightLeftMovement( String id )
+	public RightLeftMovement()
 	{
-		this.id = id;
+		//this.id = id;
 	}
  
 	public float getSpeed()
@@ -37,23 +37,18 @@ public class RightLeftMovement extends Component
  
 		Input input = gc.getInput();
 		
-		if (owner.getAnimation() == "jump")
-        	position.y += 0.9f * delta;
-			
-		owner.setAnimation("default");
-		
         if (input.isKeyDown(Input.KEY_A)) {
-    		owner.setAnimation("walk");
+            owner.getRenderComponent().setCurrentAnimation("WALKING_LEFT");
         	position.x -= 0.1f * delta;
         }
  
         if (input.isKeyDown(Input.KEY_D)) {
-    		owner.setAnimation("walk");
+            owner.getRenderComponent().setCurrentAnimation("WALKING_LEFT");
         	position.x += 0.1f * delta;
         }
  
         if (input.isKeyDown(Input.KEY_W)) {
-        	owner.setAnimation("jump");
+            owner.getRenderComponent().setCurrentAnimation("JUMPING");
         	position.y -= 0.9f * delta;
         }
 

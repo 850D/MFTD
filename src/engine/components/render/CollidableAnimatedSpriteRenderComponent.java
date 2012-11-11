@@ -46,53 +46,36 @@ import engine.components.RenderComponent;
 public class CollidableAnimatedSpriteRenderComponent extends RenderComponent 
 {
 	private Polygon boundingBox;
- 	private SpriteSheet sprite;
- 	private HashMap<String, Animation> animationMap;
- 
-	public CollidableAnimatedSpriteRenderComponent(
-			String id, 
-			String imageLocation, 
-		//	HashMap<String, Animation> aMap,
-		//	int height,
-		//	int width,			
-			int duration
-		//	Color color
-	) throws SlickException {
-		super(id);
-		Color color = new Color(22, 45, 9);
+  	
+    public CollidableAnimatedSpriteRenderComponent() throws SlickException {
+        super();
+        this.setCurrentAnimation("DEFAULT");        
+   
 		Vector2f pos = new Vector2f(100, 350);
-		
 		this.boundingBox = new Polygon(new float[] {
 				pos.x, pos.y,
 				pos.x + 32, pos.y,
 				pos.x + 32, pos.y + 42,
 				pos.x, pos.y + 42
 		});
-		
-		this.sprite = new SpriteSheet(imageLocation, 32, 42, color);
-		this.animationMap = new HashMap<String, Animation>();
-		this.animationMap.put("default", new Animation(this.sprite, 0, 0, 0, 0, true, duration, false));
-		this.animationMap.put("walk", new Animation(this.sprite, 0, 0, 3, 0, true, duration, false));
-		this.animationMap.put("jump", new Animation(this.sprite, 4, 0, 6, 0, true, duration, false));
-		this.animationMap.put("longJump", new Animation(this.sprite, 0, 1, 5, 1, true, duration, false));
-		
 	}
  
 	@Override
 	public void render(GameContainer gc, StateBasedGame sb, Graphics gr) {
 		Vector2f pos = owner.getPosition();
 		
-	
 		gr.draw(this.boundingBox);
-		this.animationMap.get(owner.getAnimation()).draw(pos.x, pos.y);
+		this.getCurrentAnimation().draw(pos.x, pos.y);
 	}
  
 	@Override
 	public void update(GameContainer gc, StateBasedGame sb, int delta) {
-		Vector2f pos = owner.getPosition();
-
+		
+	    Vector2f pos = owner.getPosition();
 		this.boundingBox.setX(pos.x);
 		this.boundingBox.setY(pos.y);
-		this.animationMap.get(owner.getAnimation()).update(delta);
+		
+		this.getCurrentAnimation().update(delta);
+
 	}
 }

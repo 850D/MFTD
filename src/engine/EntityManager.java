@@ -1,10 +1,9 @@
 /**
  * MFTD 
- * 
- * Mark and Florian's Tower Defense (or Motherfucking Tower Defense)
+ *
  * A simple java based tower defense game using the slick game framework.
  * 
- * Copyright (C) 2012 Florian Stötzel, Mark Arendt
+ * Copyright (C) 2012 Florian Stötzel, Mark Arendt, Kai Burchardt, Dominik Augst
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -22,12 +21,13 @@
  */
 package engine;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.state.StateBasedGame;
 
 import engine.Entity;
-import engine.components.Component;
 
 /**
  * @author Mark Arendt <mark@madesign.info>
@@ -37,17 +37,72 @@ import engine.components.Component;
  */
 public class EntityManager 
 {
-	/**
-	 * Entity loader
-	 */
-	private EntityLoader entityLoader;
+    String dir = null;
+    GameContainer gc;
 
 	/**
 	 * List of entities
 	 */
-	private ArrayList<Entity> entityList = null;
-
+    private HashMap<String, Entity> entityList = null;
+	
+    private static EntityManager _instance = new EntityManager();
+    
+    public final static EntityManager getInstance(){
+        return _instance;
+    }    
+    
 	public EntityManager() {
-		this.entityList = new ArrayList<Entity>();
+        EntityLoader entityLoader = new EntityLoader();
+        
+        String dir = "data/entities";
+        this.entityList = new HashMap<String, Entity>();
+        
+        entityLoader.loadResourcesDir(dir, false);
+        this.entityList = entityLoader.getEntities();                
 	}
+	
+	public EntityManager addEntity (Entity entity) {
+	    this.entityList.put (entity.getId(), entity);
+	    
+	    return this;
+	}
+
+    public Entity getEntity (String id) {
+        return this.entityList.get(id);
+    }
+
+    public EntityManager setDataDir(String dir) {
+        this.dir = dir;
+        
+        return this;
+    }
+
+    public String getDataDir() {
+        return this.dir;
+    }
+
+    public EntityManager setGameContainer(GameContainer gc) {
+        this.gc = gc;
+        
+        return this;
+    }
+
+    public GameContainer getGameContainer() {
+        return this.gc;
+    }
+        
+    public EntityManager update(GameContainer gc, StateBasedGame sb, int delta) {
+        for (Entity entity : this.entityList.values()) 
+            if (!entity.getId().isEmpty())
+               entity.update(gc, sb, delta);
+            
+        
+        return this;
+    }
+
+    public void render(GameContainer gc, StateBasedGame sb, Graphics gr) {        
+            for (Entity entity : this.entityList.values())
+                if (!entity.getId().isEmpty())
+                    entity.render(gc, sb, gr);        
+    }
 }

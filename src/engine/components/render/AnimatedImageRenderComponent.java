@@ -33,16 +33,18 @@ public class AnimatedImageRenderComponent extends RenderComponent
 		this.sprite = new SpriteSheet(imageLocation, 32, 42, color);
 		this.animationMap = new HashMap<String, Animation>();
 		this.animationMap.put("default", new Animation(this.sprite, 0, 0, 0, 0, true, duration, false));
-		this.animationMap.put("walk", new Animation(this.sprite, 0, 0, 3, 0, true, duration, false));
-		this.animationMap.put("jump", new Animation(this.sprite, 4, 0, 6, 0, true, duration, false));
+		this.animationMap.put("walk", new Animation(this.sprite, 0, 0, 4, 0, true, duration, false));
+		this.animationMap.put("jump", new Animation(this.sprite, 5, 0, 5, 0, true, 1, false));
 		this.animationMap.put("longJump", new Animation(this.sprite, 0, 1, 5, 1, true, duration, false));
-		
 	}
  
 	@Override
 	public void render(GameContainer gc, StateBasedGame sb, Graphics gr) {
 		Vector2f pos = owner.getPosition();
 		this.animationMap.get(owner.getAnimation()).draw(pos.x, pos.y);
+
+		//if (owner.getAnimation() == "jump")
+		//	this.animationMap.get(owner.getAnimation()).stop();
 	}
  
 	@Override

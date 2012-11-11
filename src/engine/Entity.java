@@ -1,10 +1,9 @@
 /**
  * MFTD 
  * 
- * Mark and Florian's Tower Defense (or Motherfucking Tower Defense)
  * A simple java based tower defense game using the slick game framework.
  * 
- * Copyright (C) 2012 Florian Stötzel, Mark Arendt
+ * Copyright (C) 2012 Florian Stötzel, Mark Arendt, Kai Burchardt, Dominik Augst
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -27,7 +26,6 @@ import java.util.ArrayList;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-//import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -35,28 +33,31 @@ import engine.components.Component;
 import engine.components.RenderComponent;
 
 /**
- * Entity Class
- * 
  * Everything in the game is an entity. 
  * This class resembles the core structure.
  * 
  * @author Mark Arendt <mark@madesign.info>
- * @category mftd.engine
+ * @category engine
  * @version 0.1
  * @since 2012-10-21
  */
 public class Entity 
-{
-	String id;
-	Vector2f position;
-	float scale;
-	float rotation;
-	String anim;
+{	
+	private float scale;
+	private float rotation;
 
-	RenderComponent renderComponent = null;
+	private String id;
+	private Vector2f position = null;
 
-	ArrayList<Component> components = null;
+	private RenderComponent renderComponent = null;
+	private ArrayList<Component> components = null;
 
+	/**
+	 * Default Constructor initializing an 
+	 * unscaled, non rotated entity at 0,0
+
+	 * @param id The Entity Identifier
+	 */
 	public Entity(String id) {
 		this.id = id;
 
@@ -65,24 +66,81 @@ public class Entity
 		position = new Vector2f(0, 0);
 		scale = 1;
 		rotation = 0;
-		anim = "default";
+	}
+
+	/*
+	 * Getter
+	 */
+	public Vector2f getPosition() {
+		return this.position;
+	}
+
+	public float getScale() {
+		return this.scale;
+	}
+
+	public float getRotation() {
+		return this.rotation;
+	}
+
+	public String getId() {
+		return this.id;
+	}
+
+    public RenderComponent getRenderComponent() {
+        return this.renderComponent;
+    }
+	
+	/*
+	 * Setter
+	 */
+	public Entity setPosition(Vector2f position) {
+		this.position = position;
+		return this;
+	}
+
+	public Entity setRotation(float rotate) {
+	    this.rotation = rotate;
+		return this;
+	}
+
+	public Entity setScale(float scale) {
+		this.scale = scale;
+		
+		return this;
+	}
+
+    public Entity setId(String id) {
+        this.id = id;
+        return this;
+    }
+	
+	/**
+	 * Decorates the entity with a new component.
+	 * The component must be a child of the 
+	 * abstract {@link engine.components.Component Component} class. 
+	 * 
+	 * @param component A {@link engine.components.Component Component} instance
+	 */
+	public Entity addComponent(Component component) {
+        // renderComponent to declare? 
+        if (RenderComponent.class.isInstance(component))
+            renderComponent = (RenderComponent) component;
+
+        // Sets the component's owner
+        component.setOwnerEntity(this);
+        
+        components.add(component);
+	    return this;
 	}
 
 	/**
-	 * Decorates the entity with a new component.
-	 * The component must be an child of the 
-	 * abstract component class. 
+	 * Returns a specific {@link engine.components.Component Component}
+	 * identified by its id.
 	 * 
-	 * @param component An instace of component
-	 */
-	public void addComponent(Component component) {
-		if (RenderComponent.class.isInstance(component))
-			renderComponent = (RenderComponent) component;
-
-		component.setOwnerEntity(this);
-		components.add(component);
-	}
-
+	 * @param  id
+	 * @return {@link engine.components.Component Component}
+	 */	
 	public Component getComponent(String id) {
 		for (Component comp : components) {
 			if (comp.getId().equalsIgnoreCase(id))
@@ -91,51 +149,21 @@ public class Entity
 
 		return null;
 	}
-
-	public Vector2f getPosition() {
-		return position;
-	}
-
-	public float getScale() {
-		return scale;
-	}
-
-	public float getRotation() {
-		return rotation;
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public String getAnimation() {
-		return this.anim;
-	}
-
-	public void setAnimation(String name) {
-		this.anim = name;
-	}
 	
-	public void setPosition(Vector2f position) {
-		this.position = position;
-	}
-
-	public void setRotation(float rotate) {
-		rotation = rotate;
-	}
-
-	public void setScale(float scale) {
-		this.scale = scale;
-	}
-
-	public void update(GameContainer gc, StateBasedGame sb, int delta) {
-		for (Component component : components) {
+	public Entity update(GameContainer gc, StateBasedGame sb, int delta) {
+	    for (Component component : components) {
 			component.update(gc, sb, delta);
 		}
+		
+		return this;
 	}
 
 	public void render(GameContainer gc, StateBasedGame sb, Graphics gr) {
-		if (renderComponent != null)
-			renderComponent.render(gc, sb, gr);
+        try {
+    	    if (renderComponent != null)
+    			renderComponent.render(gc, sb, gr);
+        } catch (Exception e) {
+            System.out.println(e);            
+        }
 	}
 }

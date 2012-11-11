@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity>
+    <!-- General -->
+    <resource type="id">duke</resource>
+    <resource type="class">avatar</resource> 
+    <resource type="position" x="100" y="350" />
+    
+    <!-- Components --> 
+    <resource type="component">engine.components.render.CollidableAnimatedSpriteRenderComponent</resource> 
+    <resource type="component">engine.components.movement.RightLeftMovement</resource> 
+ 
+    <!-- Animations -->
+    <resource type="animation" id="DEFAULT" tw="32" th="42" color="21,45,9" duration="180">data/images/duke.jpg</resource>
+    <resource type="animation" id="WALKING_LEFT" tw="32" th="42" color="21,45,9" duration="180">data/images/duke-walk.jpg</resource>
+    <resource type="animation" id="RUNNING_LEFT" tw="32" th="42" color="21,45,9" duration="180">data/images/duke-run.jpg</resource>
+    <resource type="animation" id="JUMPING" tw="32" th="42" color="21,45,9" duration="180">data/images/duke-jump.jpg</resource>
+
+    <!-- SOUNDS -->
+    <resource type="sound" id="WALKING_SOUND">\sounds\walk.ogg</resource>
+</entity>

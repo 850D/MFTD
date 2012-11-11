@@ -1,10 +1,9 @@
 /**
  * MFTD 
- * 
- * Mark and Florian's Tower Defense (or Motherfucking Tower Defense)
+ *
  * A simple java based tower defense game using the slick game framework.
  * 
- * Copyright (C) 2012 Florian Stötzel, Mark Arendt
+ * Copyright (C) 2012 Florian Stötzel, Mark Arendt, Kai Burchardt, Dominik Augst
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -24,18 +23,9 @@ import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Vector2f;
- 
-import engine.Entity;
+
 import engine.EntityManager;
-import engine.components.movement.TopDownMovement;
-import engine.components.movement.RightLeftMovement;
-import engine.components.render.ImageRenderComponent;
-import engine.components.render.AnimatedImageRenderComponent;
-import engine.components.render.BlockMapRenderComponent;
-import engine.components.render.CollidableAnimatedSpriteRenderComponent;
 
 /**
  * Main Class
@@ -61,12 +51,6 @@ public class MFTD extends BasicGame
 	 */
 	private EntityManager entityManager;
 	
-	/**
-	 * Game test entities
-	 */
-	private Entity duke = null;
-    private Entity bg_map = null;
- 
     /**
      * Default constructor.
      * Sets the title and several options. 
@@ -85,30 +69,9 @@ public class MFTD extends BasicGame
      */
     @Override
     public void init(GameContainer gc) throws SlickException {
-    	
-    	
-    	bg_map = new Entity("map");
- 
-        bg_map.addComponent (
-        	new BlockMapRenderComponent(
-        		"MapRender", 
-        		"/data/map.tmx"
-        	)
-        );
- 
-        duke = new Entity("duke");
-        duke.addComponent(
-        	new CollidableAnimatedSpriteRenderComponent(
-        		"PlayerRender", 
-        		"/data/duke.png",
-        		180
-        	) 
-        );
-        
-        duke.addComponent(new RightLeftMovement("PlayerMovement"));
-        duke.setPosition(new Vector2f(100, 350));
+    	this.entityManager = new EntityManager();
     }
-  
+    
     /**
      * Main update function
      * 
@@ -120,8 +83,7 @@ public class MFTD extends BasicGame
      */
     @Override
     public void update(GameContainer gc, int delta) throws SlickException {
-    	bg_map.update(gc, null, delta);
-    	duke.update(gc, null, delta);
+    	this.entityManager.update(gc, null, delta);
     }
 
     /**
@@ -134,8 +96,7 @@ public class MFTD extends BasicGame
      * @see org.newdawn.slick.BasicGame#update
      */    
     public void render(GameContainer gc, Graphics gr) throws SlickException {
-    	bg_map.render(gc, null, gr);
-    	duke.render(gc, null, gr);
+        this.entityManager.render(gc, null, gr);
     }
  
     /**

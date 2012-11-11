@@ -22,9 +22,6 @@
  */
 package engine.components.collision;
 
-import Block;
-import BlockMap;
-
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
@@ -47,12 +44,6 @@ public class SquareCollision extends Component
 	}
  
 	public boolean entityCollisionWith() throws SlickException {
-		for (int i = 0; i < BlockMap.entities.size(); i++) {
-			Block entity1 = (Block) BlockMap.entities.get(i);
-			if (playerPoly.intersects(entity1.poly)) {
-				return true;
-			}       
-		}       
 		return false;
 	}
 	

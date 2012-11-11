@@ -22,6 +22,9 @@
  */
 package engine.components;
 
+import java.util.HashMap;
+
+import org.newdawn.slick.Animation;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.state.StateBasedGame;
@@ -34,16 +37,45 @@ import org.newdawn.slick.state.StateBasedGame;
  */
 public abstract class RenderComponent extends Component 
 {
+    /**
+     * HashMap where we can store our animations.
+     */
+    private HashMap<String, Animation> animationMap;
+    private String currentAnimation = "DEFAULT";
+    
 	/**
 	 * Constructor initializing 
 	 * the component id
 	 * 
 	 * @param id string
 	 */
-	public RenderComponent(String id) {
-		this.id = id;
+	public RenderComponent() {
+		//this.id = id;
+		this.type = CompTypes.RENDER;
+		this.animationMap = new HashMap<String, Animation>(); 
+	}
+	
+	/**
+	 * Getter / Setter
+	 */
+	public Animation getAnimation(String id) {
+	    return this.animationMap.get(id);
 	}
 
+	public Animation getCurrentAnimation() {
+        return this.animationMap.get(this.currentAnimation);
+    }
+
+    public RenderComponent setCurrentAnimation(String id) {
+        this.currentAnimation = id;
+        return this;
+    }
+	
+    public RenderComponent addAnimation(String id, Animation animation) {
+        this.animationMap.put(id, animation);
+        return this;
+    }
+	
 	/**
 	 * Abstract render method
 	 * 

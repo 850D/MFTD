@@ -38,6 +38,13 @@ import engine.Entity;
 public abstract class Component 
 {
 	/**
+	 * Component types
+	 */
+	public enum CompTypes {
+		RENDER, MOVEMENT, COLLISION
+	}	
+	
+	/**
 	 * Component identifier
 	 */
     protected String id;
@@ -47,15 +54,29 @@ public abstract class Component
      */
     protected Entity owner;
  
+    /**
+     * Component type.
+     */
+    protected CompTypes type;
     
     public String getId() {
-        return id;
+        return this.id;
     }
  
-    public void setOwnerEntity(Entity owner) {
+    public Component setOwnerEntity(Entity owner) {
     	this.owner = owner;
+    	return this;
+    }
+
+    public CompTypes getType() {
+        return this.type;
     }
  
+    public Component setType(CompTypes type) {
+    	this.type = type;
+    	return this;
+    }
+    
     public abstract void update(
     	GameContainer game_container, 
     	StateBasedGame state_based_game, 
