@@ -30,6 +30,12 @@ import org.newdawn.slick.state.StateBasedGame;
 import engine.Entity;
 
 /**
+ * Manages all loaded entities. There shall be only one instance of this class
+ * at a time, so it implements the singleton design (anti)pattern.
+ * 
+ * Furthermore it implements some sort of the fluent interface 
+ * design pattern (in a very simple way without any grammar).
+ *  
  * @author Mark Arendt <mark@madesign.info>
  * @category mftd.engine
  * @version 0.1
@@ -51,7 +57,7 @@ public class EntityManager
         return _instance;
     }    
     
-	public EntityManager() {
+	private EntityManager() {
         EntityLoader entityLoader = new EntityLoader();
         
         String dir = "data/entities";

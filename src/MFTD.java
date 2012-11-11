@@ -28,10 +28,7 @@ import org.newdawn.slick.SlickException;
 import engine.EntityManager;
 
 /**
- * Main Class
- * 
- * Initializes the engine and gamestate manager
- * and starts a new game.
+ * Initializes the engine, the gamestate and the entity manager.
  * 
  * @author Mark Arendt <mark@madesign.info>
  * @category mftd
@@ -60,7 +57,7 @@ public class MFTD extends BasicGame
     }
  
     /**
-     * Initializes the game // Test purpose
+     * Initializes the game
      *
      * @param gc GameContainer Container for the game context
      * 
@@ -69,7 +66,8 @@ public class MFTD extends BasicGame
      */
     @Override
     public void init(GameContainer gc) throws SlickException {
-    	this.entityManager = new EntityManager();
+        // EntityManager is a singleton so get its instance 
+    	this.entityManager = EntityManager.getInstance(); 
     }
     
     /**
