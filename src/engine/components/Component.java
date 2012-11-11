@@ -1,10 +1,9 @@
 /**
  * MFTD 
- * 
- * Mark and Florian's Tower Defense (or Motherfucking Tower Defense)
+ *
  * A simple java based tower defense game using the slick game framework.
  * 
- * Copyright (C) 2012 Florian Stötzel, Mark Arendt
+ * Copyright (C) 2012 Florian Stötzel, Mark Arendt, Kai Burchardt, Dominik Augst
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -28,7 +27,12 @@ import org.newdawn.slick.state.StateBasedGame;
 import engine.Entity;
  
 /**
- * Abstract component class
+ * Components are structures added on top of {@link engine.Entity entities}
+ * to supply additional function, e.g. movement, collision,
+ * rendering, sound, etc. or abilities like carrying a sword, eating ...
+ * 
+ * It implements some sort of the fluent interface 
+ * design pattern (in a very simple way without any grammar).
  * 
  * @author Mark Arendt <mark@madesign.info>
  * @category mftd.engine.components
@@ -36,14 +40,7 @@ import engine.Entity;
  * @since 2012-10-21
  */  
 public abstract class Component 
-{
-	/**
-	 * Component types
-	 */
-	public enum CompTypes {
-		RENDER, MOVEMENT, COLLISION
-	}	
-	
+{	
 	/**
 	 * Component identifier
 	 */
@@ -53,30 +50,27 @@ public abstract class Component
      * Parent Entity.
      */
     protected Entity owner;
- 
-    /**
-     * Component type.
-     */
-    protected CompTypes type;
     
+    /**
+     * Returns the components' identifier.
+     * 
+     * @return String
+     */
     public String getId() {
         return this.id;
     }
  
+    /**
+     * Sets the owner of this particular component.
+     * 
+     * @param owner
+     * @return this
+     */
     public Component setOwnerEntity(Entity owner) {
     	this.owner = owner;
     	return this;
     }
-
-    public CompTypes getType() {
-        return this.type;
-    }
- 
-    public Component setType(CompTypes type) {
-    	this.type = type;
-    	return this;
-    }
-    
+   
     public abstract void update(
     	GameContainer game_container, 
     	StateBasedGame state_based_game, 

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity>
+    <!-- General -->
+    <resource type="id">map</resource>
+    <resource type="class">map</resource> 
+    
+    <!-- Components --> 
+    <resource type="component">engine.components.render.BlockMapRenderComponent</resource> 
+    <resource type="map" id="map">data/maps/map.tmx</resource>
+</entity>

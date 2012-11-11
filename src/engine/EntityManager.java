@@ -58,7 +58,9 @@ public class EntityManager
         this.entityList = new HashMap<String, Entity>();
         
         entityLoader.loadResourcesDir(dir, false);
-        this.entityList = entityLoader.getEntities();                
+        this.entityList = entityLoader.getEntities();
+        System.out.println(this.entityList.size());
+
 	}
 	
 	public EntityManager addEntity (Entity entity) {
@@ -68,6 +70,7 @@ public class EntityManager
 	}
 
     public Entity getEntity (String id) {
+
         return this.entityList.get(id);
     }
 

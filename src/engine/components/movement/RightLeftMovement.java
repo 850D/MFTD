@@ -9,6 +9,13 @@ import org.newdawn.slick.state.StateBasedGame;
 import engine.components.Component;
  
  
+/**
+ * @author Mark Arendt <mark@madesign.info>
+ * @category engine.components.movement
+ * @version 0.1
+ * @since 2012-10-21
+ *
+ */
 public class RightLeftMovement extends Component 
 {
  

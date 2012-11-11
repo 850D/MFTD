@@ -1,10 +1,9 @@
 /**
  * MFTD 
- * 
- * Mark and Florian's Tower Defense (or Motherfucking Tower Defense)
+ *
  * A simple java based tower defense game using the slick game framework.
  * 
- * Copyright (C) 2012 Florian Stötzel, Mark Arendt
+ * Copyright (C) 2012 Florian Stötzel, Mark Arendt, Kai Burchardt, Dominik Augst
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -18,40 +17,50 @@
  * 
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, 
- * MA  02110-1301, USA.
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 package engine.components.render;
- 
-import java.util.HashMap;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Color;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Polygon;
 import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
-import org.newdawn.slick.Animation;
 
 import engine.components.RenderComponent;
 
 /**
+ * CollidableAnimatedSpriteRenderComponent extends
+ * {@link engine.components.RenderComponent RenderComponent}
+ * with a bounding box and the use of animations. 
+ * 
+ * It implements some sort of the fluent interface 
+ * design pattern (in a very simple way without any grammar) like its parents.
+ * 
  * @author Mark Arendt <mark@madesign.info>
- * @category mftd.engine
- * @version 0.1
+ * @category engine.components.render
+ * @version 0.2
  * @since 2012-10-21
  */
 public class CollidableAnimatedSpriteRenderComponent extends RenderComponent 
 {
+    /**
+     * The entities bounding box, 
+     * so we can do some calculations > collision
+     */
 	private Polygon boundingBox;
   	
+    /**
+     * Default Constructor
+     * @throws SlickException
+     */
     public CollidableAnimatedSpriteRenderComponent() throws SlickException {
         super();
-        this.setCurrentAnimation("DEFAULT");        
-   
-		Vector2f pos = new Vector2f(100, 350);
+              
+        // Place the bounding box with the same 
+        // dimensions at the same position like the entity.
+		Vector2f pos = new Vector2f(0, 0);
 		this.boundingBox = new Polygon(new float[] {
 				pos.x, pos.y,
 				pos.x + 32, pos.y,
@@ -64,7 +73,11 @@ public class CollidableAnimatedSpriteRenderComponent extends RenderComponent
 	public void render(GameContainer gc, StateBasedGame sb, Graphics gr) {
 		Vector2f pos = owner.getPosition();
 		
+		// Draw the additional bounding box
 		gr.draw(this.boundingBox);
+		
+		// Omit redundant comments. Like this one. 
+		// It's really not necessary, isn't it?
 		this.getCurrentAnimation().draw(pos.x, pos.y);
 	}
  

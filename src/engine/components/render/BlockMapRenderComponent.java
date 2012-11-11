@@ -43,29 +43,41 @@ import engine.components.RenderComponent;
  */
 public class BlockMapRenderComponent extends RenderComponent {
 	
-	public TiledMap tiledMap;
-	public int width;
-	public int height;
+	private TiledMap tiledMap;
+	private int width;
+	private int height;
 	private int square[] = { 1, 1, 15, 1, 15, 15, 1, 15 }; // square shaped tile
-	public ArrayList<Block> blockList;
+	private ArrayList<Block> blockList;
 
-	public BlockMapRenderComponent(String id, String ref) throws SlickException {
-		super(id);
+	public BlockMapRenderComponent() throws SlickException {
+		super();
 
 		blockList = new ArrayList<Block>();
-		tiledMap = new TiledMap(ref, "data");
-		
-		width = tiledMap.getWidth() * tiledMap.getTileWidth();
-		height = tiledMap.getHeight() * tiledMap.getTileHeight();
+	}
 
-		for (int x = 0; x < tiledMap.getWidth(); x++) {
-			for (int y = 0; y < tiledMap.getHeight(); y++) {
-				int tileID = tiledMap.getTileId(x, y, 0);
-				if (tileID == 1) {
-					blockList.add(new Block(x * 16, y * 16, square, "square"));
-				}
-			}
-		}
+    /**
+     * Loads a tiled map (format .tmx) from a file.
+     * 
+     * @param path
+     * @return this
+     * @throws SlickException
+     */
+    public BlockMapRenderComponent loadMap(String path) throws SlickException {
+        tiledMap = new TiledMap(path, "data");
+
+        this.width = tiledMap.getWidth() * tiledMap.getTileWidth();
+        this.height = tiledMap.getHeight() * tiledMap.getTileHeight();
+
+        for (int x = 0; x < tiledMap.getWidth(); x++) {
+            for (int y = 0; y < tiledMap.getHeight(); y++) {
+                int tileID = tiledMap.getTileId(x, y, 0);
+                if (tileID == 1) {
+                    blockList.add(new Block(x * 16, y * 16, square, "square"));
+                }
+            }
+        }
+
+        return this;
 	}
 	
 	public boolean entityCollisionWith(Polygon bBox) throws SlickException {

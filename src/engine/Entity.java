@@ -33,8 +33,11 @@ import engine.components.Component;
 import engine.components.RenderComponent;
 
 /**
- * Everything in the game is an entity. 
- * This class resembles the core structure.
+ * Everything in the game is an entity, 
+ * so this class is an atomic structure of our game engine.
+ * 
+ * It implements some sort of the fluent interface 
+ * design pattern (in a very simple way without any grammar).
  * 
  * @author Mark Arendt <mark@madesign.info>
  * @category engine
@@ -150,6 +153,15 @@ public class Entity
 		return null;
 	}
 	
+	/**
+	 * Iterates through our array of components and
+	 * calls every single update function.
+	 * 
+	 * @param gc
+	 * @param sb
+	 * @param delta
+	 * @return this
+	 */
 	public Entity update(GameContainer gc, StateBasedGame sb, int delta) {
 	    for (Component component : components) {
 			component.update(gc, sb, delta);
@@ -158,6 +170,19 @@ public class Entity
 		return this;
 	}
 
+	
+	/**
+	 * Calls the render method of our attached 
+	 * {@link engine.components.RenderComponent RenderComponent}.
+	 * 
+	 * This is the last member in the chain so it doesn't return itself
+	 * (So, no sign of a grammar? I've to correct myself: 
+	 * Perhaps the simplest grammar ever, but still a grammar).
+	 * 
+	 * @param gc
+	 * @param sb
+	 * @param gr
+	 */
 	public void render(GameContainer gc, StateBasedGame sb, Graphics gr) {
         try {
     	    if (renderComponent != null)

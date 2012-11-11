@@ -44,6 +44,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import engine.components.Component;
+import engine.components.render.BlockMapRenderComponent;
 
 /**
  * @author Mark Arendt <mark@madesign.info>
@@ -71,7 +72,7 @@ public class EntityLoader
         File[] listOfFiles = folder.listFiles();
 
         try {
-            for (int i = 0; i < ((listOfFiles.length)-1); i++) {
+            for (int i = 0; i < ((listOfFiles.length)); i++) {
                 if (listOfFiles[i].isFile()) {
                 
                     String fileName = listOfFiles[i].getCanonicalPath();
@@ -79,7 +80,8 @@ public class EntityLoader
                     if (fileName.endsWith(".xml")) {
         
                         files = listOfFiles[i].getName();
-        
+                        System.out.println(dir.concat("/" + files));
+
                         InputStream inputStream = new FileInputStream(
                             dir.concat("/" + files)
                         );
@@ -175,7 +177,14 @@ public class EntityLoader
                     
                     Vector2f pos = new Vector2f(x, y);
                     newEntity.setPosition(pos);
+ 
+                } else if (type.equals("map")) {
+                    System.out.println("map");
+                    // @FIXME    
+                    BlockMapRenderComponent map = (BlockMapRenderComponent)newEntity.getRenderComponent();
+                    map.loadMap(resourceElement.getTextContent());
                 }
+
             }
         }
         
