@@ -3,7 +3,7 @@
     <!-- General -->
     <resource type="id">duke</resource>
     <resource type="class">avatar</resource> 
-    <resource type="position" x="100" y="350" />
+    <resource type="position" x="90" y="340" />
     
     <!-- Components --> 
     <resource type="component">engine.components.render.CollidableAnimatedSpriteRenderComponent</resource> 

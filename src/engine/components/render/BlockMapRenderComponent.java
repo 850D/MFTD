@@ -29,15 +29,13 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Polygon;
-import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.tiled.TiledMap;
-
 import engine.components.RenderComponent;
 
 /**
  * @author Mark Arendt <mark@madesign.info>
- * @category mftd.engine.components.render
+ * @category engine.components.render
  * @version 0.1
  * @since 2012-10-25
  */
@@ -49,10 +47,18 @@ public class BlockMapRenderComponent extends RenderComponent {
 	private int square[] = { 1, 1, 15, 1, 15, 15, 1, 15 }; // square shaped tile
 	private ArrayList<Block> blockList;
 
-	public BlockMapRenderComponent() throws SlickException {
+	/**
+     * @return the blockList
+     */
+    public ArrayList<Block> getBlockList() {
+        return blockList;
+    }
+
+    public BlockMapRenderComponent() throws SlickException {
 		super();
 
 		blockList = new ArrayList<Block>();
+		Block b = new Block(16, 16, square, "square");
 	}
 
     /**
@@ -79,30 +85,19 @@ public class BlockMapRenderComponent extends RenderComponent {
 
         return this;
 	}
-	
-	public boolean entityCollisionWith(Polygon bBox) throws SlickException {
-		for (int i = 0; i < this.blockList.size(); i++) {
-			Block entity1 = (Block) this.blockList.get(i);
-			if (bBox.intersects(entity1.poly)) {
-				return true;
-			}       
-		}       
-		return false;
-	}	
  
 	@Override
 	public void render(GameContainer gc, StateBasedGame sb, Graphics gr) {
-		this.tiledMap.render(0, 0);
+	    this.tiledMap.render(0, 0, 0);
 	}
  
 	@Override
 	public void update(GameContainer gc, StateBasedGame sb, int delta) {
-		//this.entityCollisionWith();
 	}
 
 	/**
 	 * @author Mark Arendt <mark@madesign.info>
-	 * @category mftd.engine.components.render
+	 * @category engine.components.render
 	 * @version 0.1
 	 * @since 2012-10-25
 	 */
@@ -110,15 +105,21 @@ public class BlockMapRenderComponent extends RenderComponent {
 	{
 		public Polygon poly;
 		
-		public Block(int x, int y, int test[],String type) {
-			poly = new Polygon(new float[] { x + test[0], y + test[1],
+		public Block(int x, int y, int test[], String type) {
+			/*poly = new Polygon(new float[] { x + test[0], y + test[1],
 					x + test[2], y + test[3], x + test[4], y + test[5],
 					x + test[6], y + test[7], });
+			*/
+		    this.poly = new Polygon(new float[] {
+		            x, y,
+		            x + 16, y,
+		            x + 16, y + 16,
+		            x, y + 16
+	        });
 		}
 	 
-		public void draw(Graphics g) {
-			g.draw(poly);
+		public void draw(Graphics gr) {
+			gr.draw(poly);
 		}
 	}	
-	
 }

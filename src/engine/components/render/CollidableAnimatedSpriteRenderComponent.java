@@ -21,6 +21,8 @@
  */
 package engine.components.render;
 
+import java.util.ArrayList;
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
@@ -29,19 +31,20 @@ import org.newdawn.slick.geom.Vector2f;
 import org.newdawn.slick.state.StateBasedGame;
 
 import engine.components.RenderComponent;
+import engine.components.render.BlockMapRenderComponent.Block;
 
 /**
  * CollidableAnimatedSpriteRenderComponent extends
  * {@link engine.components.RenderComponent RenderComponent}
  * with a bounding box and the use of animations. 
- * 
+ * <p>
  * It implements some sort of the fluent interface 
  * design pattern (in a very simple way without any grammar) like its parents.
- * 
+ * </p>
  * @author Mark Arendt <mark@madesign.info>
  * @category engine.components.render
  * @version 0.2
- * @since 2012-10-21
+ * @since 0.1
  */
 public class CollidableAnimatedSpriteRenderComponent extends RenderComponent 
 {
@@ -49,7 +52,7 @@ public class CollidableAnimatedSpriteRenderComponent extends RenderComponent
      * The entities bounding box, 
      * so we can do some calculations > collision
      */
-	private Polygon boundingBox;
+	public Polygon boundingBox;
   	
     /**
      * Default Constructor
@@ -69,6 +72,17 @@ public class CollidableAnimatedSpriteRenderComponent extends RenderComponent
 		});
 	}
  
+    public boolean entityCollisionWith(ArrayList<Block> blockList) throws SlickException {
+        for (int i = 0; i < blockList.size(); i++) {
+            Block entity1 = (Block) blockList.get(i);
+            if (this.boundingBox.intersects(entity1.poly)) {
+                return true;
+            }       
+        }       
+     
+        return false;
+    }       
+    
 	@Override
 	public void render(GameContainer gc, StateBasedGame sb, Graphics gr) {
 		Vector2f pos = owner.getPosition();
@@ -87,7 +101,7 @@ public class CollidableAnimatedSpriteRenderComponent extends RenderComponent
 	    Vector2f pos = owner.getPosition();
 		this.boundingBox.setX(pos.x);
 		this.boundingBox.setY(pos.y);
-		
+		        
 		this.getCurrentAnimation().update(delta);
 
 	}

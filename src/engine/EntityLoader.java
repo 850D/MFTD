@@ -56,6 +56,8 @@ public class EntityLoader
 {
 
     private HashMap<String, Entity> entities = null;
+    float progress = 0;
+    int items = 0;
 
     public EntityLoader() {
         this.entities = new HashMap<String, Entity>();
@@ -71,22 +73,27 @@ public class EntityLoader
         File folder = new File(dir);
         File[] listOfFiles = folder.listFiles();
 
+        this.items = listOfFiles.length;
+        
         try {
             for (int i = 0; i < ((listOfFiles.length)); i++) {
                 if (listOfFiles[i].isFile()) {
-                
                     String fileName = listOfFiles[i].getCanonicalPath();
                     
                     if (fileName.endsWith(".xml")) {
-        
+                            
                         files = listOfFiles[i].getName();
-                        System.out.println(dir.concat("/" + files));
+                        System.out.println(this.progress);
 
                         InputStream inputStream = new FileInputStream(
                             dir.concat("/" + files)
                         );
                             
                         this.loadResources(inputStream, false);
+                        if ( i > 0 && this.items / i > 0)
+                            this.progress = this.items - (this.items / i);
+                        else
+                            this.progress = 100;
                     }
                 }   
             }

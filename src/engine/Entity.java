@@ -48,7 +48,7 @@ public class Entity
 {	
 	private float scale;
 	private float rotation;
-
+	
 	private String id;
 	private Vector2f position = null;
 

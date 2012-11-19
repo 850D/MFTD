@@ -6,5 +6,5 @@
 *.war
 *.ear
 
-/bin/*
+bin/
 
